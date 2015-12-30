@@ -27,6 +27,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "/home/jared/workspace/uVisor/CrashDebug/CrashCatcher/include/CrashCatcher.h"
+#include "/home/jared/workspace/uVisor/CrashDebug/CrashCatcher/samples/CrashingFPU/MyImplementationIO/usart"
 
 /** @addtogroup Template
   * @{
@@ -99,9 +101,29 @@ void USART1_puts(char* s)
     }
 }
 
+
+static void disableFPU()
+{
+    static const uint32_t FPCA = 1 << 2;
+    SCB->CPACR &= ~(0xF << 20);
+    __set_CONTROL(__get_CONTROL() & ~FPCA);
+}
+
+extern void testInitFPURegisters();
+
+static void crashWithFPUDisabled()
+{
+    disableFPU();
+    testInitFPURegisters();
+    USART1_puts("Crashed!\r\n");
+}
+
+
 /**************************************************************************************/
 int main(void)
 {
+    USART3_INIT();
+
     RCC_Configuration();
     GPIO_Configuration();
     USART1_Configuration();
@@ -110,6 +132,7 @@ int main(void)
     USART1_puts("Just for STM32F429I Discovery verify USART1 with USB TTL Cable\r\n");
     while(1)
     {
+        USART1_puts("while loop!\r\n");
         while(USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET);
         char t = USART_ReceiveData(USART1);
         if ((t == '\r')) {
@@ -119,6 +142,8 @@ int main(void)
         }
         while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
         USART_SendData(USART1, t);
+
+        crashWithFPUDisabled();
     }
 
     while(1); // Don't want to exit
@@ -147,6 +172,34 @@ void assert_failed(uint8_t* file, uint32_t line)
 /**
   * @}
   */
+
+
+
+/* Let CrashCatcher know what RAM contents should be part of crash dump.
+ * The last "regions" must end with "{0xFFFFFFFF, 0xFFFFFFFF}"
+ */
+const CrashCatcherMemoryRegion* CrashCatcher_GetMemoryRegions(void)
+{
+    static const CrashCatcherMemoryRegion regions[] = { 
+        //STM32F429i-Discovery
+                                                        {0x20000000, 0x2001C000, CRASH_CATCHER_BYTE},
+                                                        {0x2001C000, 0x20020000, CRASH_CATCHER_BYTE},
+                                                        {0x20020000, 0x20030000, CRASH_CATCHER_BYTE},
+                                                        {0xFFFFFFFF, 0xFFFFFFFF, CRASH_CATCHER_BYTE} 
+                                                      };
+    return regions;
+}
+
+int CrashCatcher_getc(void)
+{
+    return USART3_ReceiveChar();
+}
+
+void CrashCatcher_putc(int c)
+{
+    USART3_SendChar(c);
+} 
+
 
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
