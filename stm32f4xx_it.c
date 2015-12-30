@@ -143,6 +143,20 @@ void SysTick_Handler(void)
 {
 }
 
+/*
+ * @brief  This function handle USART1 Handler.
+ * @param None
+ * @retval None
+ */
+void USART1_IRQHandler(void)
+{
+   if(Platform_CommHasReceiveData())
+   {
+       USART1_puts("IRQ Handler\n");
+       Platform_CommClearInterrupt();
+   }
+}
+
 /******************************************************************************/
 /*                 STM32F4xx Peripherals Interrupt Handlers                   */
 /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */

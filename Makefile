@@ -5,7 +5,7 @@ BIN_IMAGE = $(PROJECT).bin
 HEX_IMAGE = $(PROJECT).hex
 
 # set the path to STM32F429I-Discovery firmware package
-STDP ?= ../STM32F429I-Discovery_FW_V1.0.1
+STDP ?= ./STM32F429I-Discovery_FW_V1.0.1
 
 # Toolchain configurations
 CROSS_COMPILE ?= arm-none-eabi-
@@ -30,6 +30,10 @@ LDFLAGS += -L $(call get_library_path,libgcc.a)
 # Basic configurations
 CFLAGS += -g -std=c99
 CFLAGS += -Wall
+
+#Porting TSET
+CFLAGS += -Wno-unused-function
+CFLAGS += -Wno-unused-but-set-variable
 
 # Optimizations
 CFLAGS += -g -std=c99 -O3 -ffast-math

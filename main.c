@@ -27,6 +27,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "./mri_temp/devices/stm32f429xx/stm32f429xx_init.h"
+#include "./mri_temp/devices/stm32f429xx/stm32f429xx_usart.c" 
 
 /** @addtogroup Template
   * @{
@@ -80,12 +82,12 @@ void USART1_Configuration(void)
      *  - Hardware flow control disabled (RTS and CTS signals)
      *  - Receive and transmit enabled
      */
-    USART_InitStructure.USART_BaudRate = 115200;
     USART_InitStructure.USART_WordLength = USART_WordLength_8b;
     USART_InitStructure.USART_StopBits = USART_StopBits_1;
     USART_InitStructure.USART_Parity = USART_Parity_No;
     USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
     USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+    USART_InitStructure.USART_BaudRate = 115200;
     USART_Init(USART1, &USART_InitStructure);
     USART_Cmd(USART1, ENABLE);
 }
@@ -93,8 +95,9 @@ void USART1_Configuration(void)
 void USART1_puts(char* s)
 {
     while(*s) {
-        while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
-        USART_SendData(USART1, *s);
+        //while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
+        //USART_SendData(USART1, *s);
+	Platform_CommSendChar(*s);
         s++;
     }
 }
@@ -102,23 +105,35 @@ void USART1_puts(char* s)
 /**************************************************************************************/
 int main(void)
 {
-    RCC_Configuration();
-    GPIO_Configuration();
-    USART1_Configuration();
+    /*
+    //RCC_Configuration();
+    enableUartPeripheralCLOCK(1);
+
+    //GPIO_Configuration();
+    enableGPIO(1);
+
+    enableUART(1);
+    //USART1_Configuration();
+    */
+    __mriStm32f429xxUart_Init();
 
     USART1_puts("Hello World!\r\n");
     USART1_puts("Just for STM32F429I Discovery verify USART1 with USB TTL Cable\r\n");
+    USART1_puts("Porting TEST__USART__FULL_1_!\r\n");
     while(1)
     {
+	/*
         while(USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET);
-        char t = USART_ReceiveData(USART1);
+        //char t = USART_ReceiveData(USART1);
+	char t = Platform_CommReceiveChar();
         if ((t == '\r')) {
             while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
             USART_SendData(USART1, t);
             t = '\n';
+            while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
+            USART1_puts("GET input\n");
         }
-        while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
-        USART_SendData(USART1, t);
+	*/
     }
 
     while(1); // Don't want to exit
