@@ -50,8 +50,10 @@ LDFLAGS += -T stm32f429zi_flash.ld
 CFLAGS += -I.
 OBJS = \
     main.o \
+	tests.o \
     stm32f4xx_it.o \
     system_stm32f4xx.o
+
 
 # STARTUP FILE
 OBJS += startup_stm32f429_439xx.o
@@ -74,7 +76,6 @@ OBJS += \
 # STM32F429I-Discovery Utilities
 CFLAGS += -I$(STDP)/Utilities/STM32F429I-Discovery
 
-
 all: $(BIN_IMAGE)
 
 $(BIN_IMAGE): $(EXECUTABLE)
@@ -85,6 +86,8 @@ $(BIN_IMAGE): $(EXECUTABLE)
 	
 $(EXECUTABLE): $(OBJS)
 	$(LD) -o $@ $(OBJS) \
+	/home/jared/workspace/uVisor/CrashDebug/CrashCatcher/obj/armv7-m/Core/src/CrashCatcher_armv7m.o \
+	/home/jared/workspace/uVisor/CrashDebug/CrashCatcher/lib/armv7-m/libCrashCatcher_HexDump_armv7m.a \
 		--start-group $(LIBS) --end-group \
 		$(LDFLAGS)
 
