@@ -30,6 +30,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_it.h"
 #include "main.h"
+#include <stdlib.h>
+#include <stdarg.h>
 
 /** @addtogroup Template
   * @{
@@ -60,8 +62,11 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+
+void dbg_printf(char *fmt, ...);
+void __attribute__((weak)) HardFault_Handler(void)
 {
+  dbg_printf("HardFault_handler!\n");
   /* Go to infinite loop when Hard Fault exception occurs */
   while (1)
   {
