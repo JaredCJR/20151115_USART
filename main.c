@@ -27,9 +27,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "./mri_temp/devices/stm32f429xx/stm32f429xx_init.h"
-#include "./mri_temp/devices/stm32f429xx/stm32f429xx_usart.c" 
-
+#include "/home/jared/workspace/uVisor/CrashDebug/mri/include/mri.h"
 /** @addtogroup Template
   * @{
   */ 
@@ -95,31 +93,32 @@ void USART1_Configuration(void)
 void USART1_puts(char* s)
 {
     while(*s) {
-        //while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
-        //USART_SendData(USART1, *s);
-	Platform_CommSendChar(*s);
+        while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
+        USART_SendData(USART1, *s);
         s++;
     }
 }
 
+
 /**************************************************************************************/
 int main(void)
 {
-    /*
-    //RCC_Configuration();
-    enableUartPeripheralCLOCK(1);
-
-    //GPIO_Configuration();
-    enableGPIO(1);
-
-    enableUART(1);
-    //USART1_Configuration();
-    */
-    __mriStm32f429xxUart_Init();
+    RCC_Configuration();
+    GPIO_Configuration();
+    USART1_Configuration();
 
     USART1_puts("Hello World!\r\n");
     USART1_puts("Just for STM32F429I Discovery verify USART1 with USB TTL Cable\r\n");
     USART1_puts("Porting TEST__USART__FULL_1_!\r\n");
+
+    if (MRI_ENABLE)
+    {   
+        __mriInit(MRI_INIT_PARAMETERS);
+        if (MRI_BREAK_ON_INIT)
+            __debugbreak();
+    }   
+
+    USART1_puts("MRI_Init finished\r\n");
     while(1)
     {
 	/*

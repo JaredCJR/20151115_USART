@@ -60,7 +60,7 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void __attribute__((weak)) HardFault_Handler(void)
 {
   /* Go to infinite loop when Hard Fault exception occurs */
   while (1)
@@ -73,7 +73,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void MemManage_Handler(void)
+void __attribute__((weak)) MemManage_Handler(void)
 {
   /* Go to infinite loop when Memory Manage exception occurs */
   while (1)
@@ -86,7 +86,7 @@ void MemManage_Handler(void)
   * @param  None
   * @retval None
   */
-void BusFault_Handler(void)
+void __attribute__((weak)) BusFault_Handler(void)
 {
   /* Go to infinite loop when Bus Fault exception occurs */
   while (1)
@@ -99,7 +99,7 @@ void BusFault_Handler(void)
   * @param  None
   * @retval None
   */
-void UsageFault_Handler(void)
+void __attribute__((weak)) UsageFault_Handler(void)
 {
   /* Go to infinite loop when Usage Fault exception occurs */
   while (1)
@@ -121,7 +121,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void DebugMon_Handler(void)
+void __attribute__((weak)) DebugMon_Handler(void)
 {
 }
 
@@ -143,19 +143,6 @@ void SysTick_Handler(void)
 {
 }
 
-/*
- * @brief  This function handle USART1 Handler.
- * @param None
- * @retval None
- */
-void USART1_IRQHandler(void)
-{
-   if(Platform_CommHasReceiveData())
-   {
-       USART1_puts("IRQ Handler\n");
-       Platform_CommClearInterrupt();
-   }
-}
 
 /******************************************************************************/
 /*                 STM32F4xx Peripherals Interrupt Handlers                   */

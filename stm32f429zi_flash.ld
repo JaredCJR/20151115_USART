@@ -30,6 +30,14 @@
 /* Entry Point */
 ENTRY(Reset_Handler)
 
+ GROUP(
+   libgcc.a
+   libg.a
+   libc.a
+   libm.a
+   libnosys.a
+ )
+
 /* Highest address of the user mode stack */
 _estack = 0x20030000;    /* end of 192K RAM */
 

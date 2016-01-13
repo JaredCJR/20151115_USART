@@ -27,6 +27,7 @@ endef
 LDFLAGS += -L $(call get_library_path,libc.a)
 LDFLAGS += -L $(call get_library_path,libgcc.a)
 
+
 # Basic configurations
 CFLAGS += -g -std=c99
 CFLAGS += -Wall
@@ -42,13 +43,13 @@ CFLAGS += -Wl,--gc-sections
 CFLAGS += -fno-common
 CFLAGS += --param max-inline-insns-single=1000
 
-
 # specify STM32F429
 CFLAGS += -DSTM32F429_439xx
 
 # to run from FLASH
 CFLAGS += -DVECT_TAB_FLASH
 LDFLAGS += -T stm32f429zi_flash.ld
+
 
 # PROJECT SOURCE
 CFLAGS += -I.
