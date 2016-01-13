@@ -114,17 +114,16 @@ int main(void)
     if (MRI_ENABLE)
     {   
         __mriInit(MRI_INIT_PARAMETERS);
+        USART1_puts("MRI_Init finished\r\n");
         if (MRI_BREAK_ON_INIT)
             __debugbreak();
     }   
 
-    USART1_puts("MRI_Init finished\r\n");
     while(1)
     {
-	/*
+        /*
         while(USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET);
-        //char t = USART_ReceiveData(USART1);
-	char t = Platform_CommReceiveChar();
+        char t = USART_ReceiveData(USART1);
         if ((t == '\r')) {
             while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
             USART_SendData(USART1, t);
@@ -132,7 +131,13 @@ int main(void)
             while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
             USART1_puts("GET input\n");
         }
-	*/
+        */
+        int i = 5000000;
+        USART1_puts("USART1 running\r\n");
+        while(i>0)
+        {
+            i--;
+        }
     }
 
     while(1); // Don't want to exit

@@ -143,7 +143,6 @@ void SysTick_Handler(void)
 {
 }
 
-
 /******************************************************************************/
 /*                 STM32F4xx Peripherals Interrupt Handlers                   */
 /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
@@ -159,8 +158,24 @@ void SysTick_Handler(void)
 /*void PPP_IRQHandler(void)
 {
 }*/
+extern void __mriExceptionHandler(void);
+extern void USART1_puts(char* s);
 
+void USART1_IRQHandler(void)
+{
+    __mriExceptionHandler();
+}
 
+void USART2_IRQHandler(void)
+{
+    //USART1_puts("Enter USART2_IRQHandler\r\n");
+    __mriExceptionHandler();
+}
+
+void USART3_IRQHandler(void)
+{
+    __mriExceptionHandler();
+}
 /**
   * @}
   */ 

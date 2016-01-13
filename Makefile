@@ -37,7 +37,7 @@ CFLAGS += -Wno-unused-function
 CFLAGS += -Wno-unused-but-set-variable
 
 # Optimizations
-CFLAGS += -g -std=c99 -O3 -ffast-math
+CFLAGS += -g3 -std=c99 -O0 -ffast-math
 CFLAGS += -ffunction-sections -fdata-sections
 CFLAGS += -Wl,--gc-sections
 CFLAGS += -fno-common
