@@ -79,6 +79,26 @@ OBJS += \
 CFLAGS += -I$(STDP)/Utilities/STM32F429I-Discovery
 
 
+# MRI paths  
+MRI_ROOT_DIR:=/home/jared/workspace/uVisor/CrashDebug/mri
+MRI_LIB_DIR:=$(MRI_ROOT_DIR)/lib/armv7-m
+MRI_libraries:=$(MRI_LIB_DIR)/libmri_stm32f429-disco.a
+
+# MRI variable
+MRI_ENABLE?=1
+DEVICE_MRI_ENABLE:=$(MRI_ENABLE)
+MRI_BREAK_ON_INIT?=0
+MRI_UART?=MRI_UART_2 
+MRI_INIT_PARAMETERS?=$(MRI_UART)
+
+MRI_FLAGS:=\
+        -DMRI_ENABLE=$(DEVICE_MRI_ENABLE) \
+		-DMRI_INIT_PARAMETERS='"$(MRI_INIT_PARAMETERS)"' \
+        -DMRI_BREAK_ON_INIT=$(MRI_BREAK_ON_INIT)
+
+CFLAGS += $(MRI_FLAGS)
+
+
 all: $(BIN_IMAGE)
 
 $(BIN_IMAGE): $(EXECUTABLE)
@@ -89,6 +109,7 @@ $(BIN_IMAGE): $(EXECUTABLE)
 	
 $(EXECUTABLE): $(OBJS)
 	$(LD) -o $@ $(OBJS) \
+		$(MRI_libraries) \
 		--start-group $(LIBS) --end-group \
 		$(LDFLAGS)
 
