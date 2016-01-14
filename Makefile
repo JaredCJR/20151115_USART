@@ -29,7 +29,7 @@ LDFLAGS += -L $(call get_library_path,libgcc.a)
 
 
 # Basic configurations
-CFLAGS += -g -std=c99
+CFLAGS += -g3 -std=c99
 CFLAGS += -Wall
 
 #Porting TSET

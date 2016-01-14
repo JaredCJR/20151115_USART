@@ -109,7 +109,6 @@ int main(void)
 
     USART1_puts("Hello World!\r\n");
     USART1_puts("Just for STM32F429I Discovery verify USART1 with USB TTL Cable\r\n");
-    USART1_puts("Porting TEST__USART__FULL_1_!\r\n");
 
     if (MRI_ENABLE)
     {   
@@ -121,17 +120,6 @@ int main(void)
 
     while(1)
     {
-        /*
-        while(USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET);
-        char t = USART_ReceiveData(USART1);
-        if ((t == '\r')) {
-            while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
-            USART_SendData(USART1, t);
-            t = '\n';
-            while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
-            USART1_puts("GET input\n");
-        }
-        */
         int i = 5000000;
         USART1_puts("USART1 running\r\n");
         while(i>0)
