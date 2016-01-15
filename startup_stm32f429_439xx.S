@@ -250,7 +250,7 @@ g_pfnVectors:
 *******************************************************************************/
    .weak      NMI_Handler
    .thumb_set NMI_Handler,Default_Handler
-  
+/*  
    .weak      HardFault_Handler
    .thumb_set HardFault_Handler,Default_Handler
   
@@ -262,13 +262,13 @@ g_pfnVectors:
 
    .weak      UsageFault_Handler
    .thumb_set UsageFault_Handler,Default_Handler
-
+*/
    .weak      SVC_Handler
    .thumb_set SVC_Handler,Default_Handler
-
+/*
    .weak      DebugMon_Handler
    .thumb_set DebugMon_Handler,Default_Handler
-
+*/
    .weak      PendSV_Handler
    .thumb_set PendSV_Handler,Default_Handler
 
@@ -388,10 +388,10 @@ g_pfnVectors:
                   
    .weak      USART1_IRQHandler      
    .thumb_set USART1_IRQHandler,Default_Handler
-                     
+/*                     
    .weak      USART2_IRQHandler      
    .thumb_set USART2_IRQHandler,Default_Handler
-                     
+*/                     
    .weak      USART3_IRQHandler      
    .thumb_set USART3_IRQHandler,Default_Handler
                   

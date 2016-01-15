@@ -60,52 +60,28 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void __attribute__((weak)) HardFault_Handler(void)
-{
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
-}
+extern void HardFault_Handler(void);
 
 /**
   * @brief  This function handles Memory Manage exception.
   * @param  None
   * @retval None
   */
-void __attribute__((weak)) MemManage_Handler(void)
-{
-  /* Go to infinite loop when Memory Manage exception occurs */
-  while (1)
-  {
-  }
-}
+extern void MemManage_Handler(void);
 
 /**
   * @brief  This function handles Bus Fault exception.
   * @param  None
   * @retval None
   */
-void __attribute__((weak)) BusFault_Handler(void)
-{
-  /* Go to infinite loop when Bus Fault exception occurs */
-  while (1)
-  {
-  }
-}
+extern void BusFault_Handler(void);
 
 /**
   * @brief  This function handles Usage Fault exception.
   * @param  None
   * @retval None
   */
-void __attribute__((weak)) UsageFault_Handler(void)
-{
-  /* Go to infinite loop when Usage Fault exception occurs */
-  while (1)
-  {
-  }
-}
+extern void UsageFault_Handler(void);
 
 /**
   * @brief  This function handles SVCall exception.
@@ -121,9 +97,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void __attribute__((weak)) DebugMon_Handler(void)
-{
-}
+extern void DebugMon_Handler(void);
 
 /**
   * @brief  This function handles PendSVC exception.
@@ -158,25 +132,9 @@ void SysTick_Handler(void)
 /*void PPP_IRQHandler(void)
 {
 }*/
-extern void __mriExceptionHandler(void);
-extern void USART1_puts(char* s);
 
-/*void USART1_IRQHandler(void)
-{
-    __mriExceptionHandler();
-}
-*/
-void USART2_IRQHandler(void)
-{
-    //USART1_puts("Enter USART2_IRQHandler\r\n");
-    __mriExceptionHandler();
-}
-/*
-void USART3_IRQHandler(void)
-{
-    __mriExceptionHandler();
-}
-*/
+extern void USART2_IRQHandler(void);
+
 /**
   * @}
   */ 
