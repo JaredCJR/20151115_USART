@@ -99,6 +99,13 @@ void USART1_puts(char* s)
     }
 }
 
+#define mriEnableUSART_RxInterrupt(UART_num) (UART_num)->CR1 |= USART_CR1_RXNEIE
+#define mriClearRxInterrupt(UART_num) (UART_num)->SR &= ~USART_SR_RXNE
+void USART1_Handler(void)
+{
+    USART1_puts("handler\r\n");
+    mriClearRxInterrupt(USART1);
+}
 /**************************************************************************************/
 int main(void)
 {
@@ -106,6 +113,8 @@ int main(void)
     GPIO_Configuration();
     USART1_Configuration();
 
+    NVIC_EnableIRQ(USART1_IRQn);
+    mriEnableUSART_RxInterrupt(USART1);
     USART1_puts("Hello World!\r\n");
     USART1_puts("Just for STM32F429I Discovery verify USART1 with USB TTL Cable\r\n");
     while(1)

@@ -159,6 +159,7 @@ void SysTick_Handler(void)
 {
 }*/
 
+extern void USART1_Handler(void);
 
 /**
   * @}
